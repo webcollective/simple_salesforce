@@ -7,21 +7,38 @@ Simply subclass SimpleSalesforce::SalesforceObject::Base with whatever class nam
 
 On installation, a blank salesforce.yml will be copied into RAILS_ROOT/config - ensure you fill in your username, password and security token.
 
-Example
-=======
 
-<pre>
-<code>
-class SalesforceContact < SimpleSalesforce::SalesforceObject::Base
-  
+Installation
+============
+
+<pre>script/plugin install git://github.com/survival/simple_salesforce.git</pre>
+
+You will also need the RForce (>=0.3) gem, so if you haven't already in environment.rb:
+
+<pre><code>config.gem 'rforce'</code></pre>
+
+then
+
+<pre>rake gems:install</pre>
+
+
+Setting up the model
+====================
+
+<pre><code>class SalesforceContact < SimpleSalesforce::SalesforceObject::Base
+
   use_salesforce_object "Contact"
   map_field :first_name, :to_salesforce_field => :FirstName
   map_field :last_name, :to_salesforce_field => :LastName
   map_field :Salutation    # this is the equivalent of map_field :Salutation, :to_salesforce_field => :Salutation
-  
-end
 
-SalesforceContact.create(:first_name => "John", :last_name => "Doe")
+end</pre></code>
+
+
+Interacting with the model
+==========================
+
+<pre><code>SalesforceContact.create(:first_name => "John", :last_name => "Doe")
 SalesforceContact.find_by_last_name("Doe")
 SalesforceContact.find_all_by_first_name("Jo%")
 SalesforceContact.find(:first)
@@ -32,9 +49,7 @@ john.save
 
 john.update_attributes(:last_name => "Doer")
 
-john.destroy
-</code>
-</pre>
+john.destroy</code></pre>
 
 
 Copyright (c) 2009 Survival International, released under the MIT license
