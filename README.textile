@@ -48,4 +48,4 @@ john.update_attributes(:last_name => "Doer")
 john.destroy</code></pre>
 
 
-small. Copyright (c) 2009 Survival International, released under the MIT license
+<small>Copyright © 2009 Survival International, released under the MIT license</small>
