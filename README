@@ -1,13 +1,35 @@
-Simplesalesforce
+SimpleSalesforce
 ================
 
-Introduction goes here.
+SimpleSalesforce allows you to interact with Salesforce.com accounts as if they were ActiveRecord databases. 
 
+Simply subclass SimpleSalesforce::SalesforceObject::Base with whatever class name you like, choose which Salesforce object type it should represent, and map whichever fields you like to your local object
 
 Example
 =======
 
-Example goes here.
+class SalesforceContact < SimpleSalesforce::SalesforceObject::Base
+  
+  use_salesforce_object "Contact"
+  map_field :first_name, :to_salesforce_field => :FirstName
+  map_field :last_name, :to_salesforce_field => :LastName
+  map_field :Salutation    # this is the equivalent of map_field :Salutation, :to_salesforce_field => :Salutation
+  
+end
+
+SalesforceContact.create(:first_name => "John", :last_name => "Doe")
+SalesforceContact.find_by_last_name("Doe")
+SalesforceContact.find_all_by_first_name("Jo%")
+SalesforceContact.find(:first)
+
+john = SalesforceContact.find(:all, :conditions => {:first_name => "John"})
+john.first_name = "Jonathan"
+john.save
+
+john.update_attributes(:last_name => "Doer")
+
+john.destroy
 
 
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+
+Copyright (c) 2009 Survival International, released under the MIT license
