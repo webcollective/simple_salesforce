@@ -72,7 +72,8 @@ module SimpleSalesforce
           soql_conditions = []
           conditions.each do |local_field, value|
             salesforce_field = fields.select {|f| f[:field] == local_field.to_sym}.first[:salesforce_field] rescue nil
-            soql_conditions << "#{salesforce_field} LIKE '#{value}'" unless salesforce_field.nil?
+            operator = value.include?("%") ? "LIKE" : "="
+            soql_conditions << "#{salesforce_field} #{operator} '#{value}'" unless salesforce_field.nil?
           end
           soql_conditions
         end
@@ -93,7 +94,9 @@ module SimpleSalesforce
           object_array = []
           if records.is_a?(Array)
             records.each {|r| object_array << instantiate_object_from_record(r)}
-          else 
+          elsif records.nil? 
+            object_array = []
+          else
             object_array = [instantiate_object_from_record(records)]
           end
           object_array
@@ -102,7 +105,7 @@ module SimpleSalesforce
         # Return a single SalesforceObject of the appropriate class given a RForce response hash
         def instantiate_single_object_from_query_response(response)
           record = extract_records_from_response(response)
-          instantiate_object_from_record(record)
+          record.nil? ? nil : instantiate_object_from_record(record)
         end
 
         # Get a single hash or array of hashed records from inside an RForce response hash
