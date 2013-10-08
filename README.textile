@@ -1,3 +1,7 @@
+h1. Deprecation notice
+
+h2. SimpleSalesforce is no longer being maintained; you should use the new "DatabaseDotCom":https://github.com/heroku/databasedotcom gem from Heroku instead.
+
 h1. SimpleSalesforce
 
 SimpleSalesforce allows you to interact with Salesforce.com accounts as if they were ActiveRecord databases. 
